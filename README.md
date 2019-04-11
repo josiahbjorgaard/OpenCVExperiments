@@ -1,2 +1,1 @@
-This repo contains hacked together python code for doing motion detection on a webcam for use on my Rasperry Pi.
-Uses OpenCV as a dependency.
+Fun little hacked-together python scripts using OpenCV to do motion tracking! 
