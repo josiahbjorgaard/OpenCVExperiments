@@ -1,4 +1,5 @@
-import cv2 from datetime import datetime
+import cv2 
+from datetime import datetime
 import time
 
 class MotionDetectorAdaptative():

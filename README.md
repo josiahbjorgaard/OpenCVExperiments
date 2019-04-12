@@ -1,12 +1,12 @@
-# OpenCV Motion Detection Experiments
+# OpenCV Experiments
 
-These are some fun experiments using opencv-python to do motion detection with a webcam. There are several examples as follows:
+These are some fun experiments using opencv-python with a webcam to do some useful and artistic projects. The included python apps are:
 
-1.) A grid of springs
+1.) A motion detecting grid of springy balls
 2.) Sticky balls
-3.) One ball
+3.) One ball that you can push around
 4.) Motion detecting video recorder
-5.) 
+5.) An artistic mashup of recorded and live video
 <hr/>
 
 ## Useage
@@ -14,8 +14,9 @@ These are some fun experiments using opencv-python to do motion detection with a
 Make sure you have the required python packages installed and run the python source file.
 
 ### Prerequisites
-OpenCV
-NumPy
+Python 2.x
+opencv-python
+numpy
 ### Set-up
 
 ### Run
