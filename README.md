@@ -2,11 +2,11 @@
 
 These are some fun experiments using opencv-python with a webcam to do some useful and artistic projects. The included python apps are:
 
-* A motion detecting grid of springy balls
-* Motion detection of edges (sticky balls)
-* One ball that you can push with motion
-* Motion detecting video capture (security cam)
-* An artistic mashup of recorded and live video
+* A motion detecting grid of springy balls [spring_points.py]
+* Motion detection of edges (sticky balls) [edge_sticker.py]
+* One ball that you can push with motion [ball_game.py]
+* Motion detecting video capture (security cam) [MotionDetector.py]
+* An artistic mashup of recorded and live video [bgsub.py]
 <hr/>
 
 ## Useage
@@ -28,9 +28,5 @@ python [sourcefile]
 ## Authors
 
 * **Josiah Bjorgaard** - [OpenCVExperiments](https://github.com/josiahbjorgaard/OpenCVExperiments)
-
-## License
-
-This project is licensed under the GNU License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments

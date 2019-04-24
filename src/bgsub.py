@@ -35,7 +35,6 @@ class App:
         self.total_writer=cv2.VideoWriter("total"+".wmv", self.codec, 10, (640,480), 1)
 
         cv2.namedWindow("Image")
-        #cv2.createTrackbar("Detection treshold: ", "Image", self.threshold, 100)
         
     def run(self):
         
@@ -66,17 +65,13 @@ class App:
                     switch=True
                     self.writer=cv2.VideoWriter("save2"+".wmv", self.codec, 10, (640,480), 1)
             elif time_counter < self.switch_time: #read all captures, write with added current capture
-                #print 'good time'
                 if initialize is False: #first initialize (must have the first video saved)
                     ret,saved_frame=self.saved_video.read()
-                    #print 'size',np.shape(saved_frame),np.shape(newframe)
-                    #print type(saved_frame)
                     if (type(saved_frame) != type(None)):
                         newframe=cv2.add(saved_frame,newframe)
                         frame=cv2.add(frame,saved_frame)
                 self.writer.write(newframe) #save newframe (initial or added) to file
             elif time_counter > self.switch_time:
-                #print 'over time'
                 restart=True
 
                 if initialize is True:
@@ -105,7 +100,6 @@ class App:
 
             #Time check and update
             time_counter=clock()-start_time
-            #print time_counter
             if restart is True:
                 print 'RESTART'
                 N=N+1
