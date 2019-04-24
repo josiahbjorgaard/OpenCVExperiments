@@ -22,13 +22,13 @@ class MotionDetectorInstantaneous():
         if doRecord:
             self.initRecorder()
         self.height, self.width, self.channels = self.frame.shape
-        self.frame1gray = np.zeros((self.height, self.width, 1), np.uint8) #cv.CreateMat(self.frame.height, self.frame.width, cv.CV_8U) #Gray frame at t-1
+        self.frame1gray = np.zeros((self.height, self.width, 1), np.uint8)
         self.frame1gray=cv.cvtColor(self.frame, cv.COLOR_RGB2GRAY)
  
         #Will hold the thresholded result
-        self.res = np.zeros((self.height, self.width, 3), np.uint8) #cv.CreateMat(self.frame.height, self.frame.width, cv.CV_8U)
+        self.res = np.zeros((self.height, self.width, 3), np.uint8)
         
-        self.frame2gray = np.zeros((self.height, self.width, 1), np.uint8) #cv.CreateMat(self.frame.height, self.frame.width, cv.CV_8U) #Gray frame at t
+        self.frame2gray = np.zeros((self.height, self.width, 1), np.uint8)
         
         self.nb_pixels = self.width * self.height
         self.threshold = threshold
@@ -45,7 +45,6 @@ class MotionDetectorInstantaneous():
         self.writer=cv.VideoWriter(datetime.now().strftime("%b-%d_%H_%M_%S")+".mpg", codec, 5, (self.height,self.width), 1)
         #FPS set to 5 because it seems to be the fps of my cam but should be ajusted to your needs
         self.font = cv.FONT_HERSHEY_SIMPLEX
-        #self.font = cv.InitFont(cv.CV_FONT_HERSHEY_SIMPLEX, 1, 1, 0, 2, 8) #Creates a font
 
     def run(self):
         started = time.time()
@@ -88,13 +87,9 @@ class MotionDetectorInstantaneous():
         cv.absdiff(self.frame1gray, self.frame2gray, self.res)
 
         #Remove the noise and do the threshold
-        #cv.Smooth(self.res, self.res, cv.CV_BLUR, 5,5)
         self.res=cv.morphologyEx(self.res, cv.MORPH_OPEN, None)#self.res)
-        #cv.MorphologyEx(self.res, self.res, None, None, cv.CV_MOP_OPEN)
         self.res=cv.morphologyEx(self.res, cv.MORPH_CLOSE, None)#self.res)
-        #cv.MorphologyEx(self.res, self.res, None, None, cv.CV_MOP_CLOSE)
         ret,self.res=cv.threshold(self.res,10,255,cv.THRESH_BINARY_INV)
-        #cv.Threshold(self.res, self.res, 10, 255, cv.CV_THRESH_BINARY_INV)
  
     def somethingHasMoved(self):
         nb=0 #Will hold the number of black pixels

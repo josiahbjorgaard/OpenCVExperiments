@@ -1,14 +1,7 @@
 #!/usr/bin/env python
 
 '''
-Lucas-Kanade tracker
-====================
-
-Lucas-Kanade sparse optical flow demo. Uses goodFeaturesToTrack
-for track initialization and back-tracking for match verification
-between frames.
-
-Revised to calculate positions and velocities for a grid of points JAB 2015
+Stick to the edges
 
 Usage
 -----
@@ -55,7 +48,7 @@ class App:
         circlex=np.reshape(circlex,-1)
         circley=np.reshape(circley,-1)
         self.p=np.reshape(zip(circlex,circley),[-1,1,2])
-        circlevx=circlex*0.0;circlevy=circley*0.0;scale=0.0001
+        circlevx=circlex*0.0;circlevy=circley*0.0;scale=0.01
         self.tracks=np.float32(self.p) #shape is N,1,2
         ret, frame = self.cam.read()
         frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -73,12 +66,10 @@ class App:
                 img0, img1 = self.prev_gray, frame_gray #previous,current frames
 
                 #Save old xy
-                #print 'self tracks shape:',np.shape(self.tracks)
                 old_tracks=self.tracks.reshape(-1,2) #save old tracks
                 
                 #track positions
                 p0 = np.float32([tr[-1] for tr in self.tracks]).reshape(-1, 1, 2) #latest points from current tracks recast for cv2
-                #print 'p0 shape:',np.shape(p0.reshape(-1,2))
                 p1, st, err = cv2.calcOpticalFlowPyrLK(img0, img1, p0, None, **lk_params) #track
 
                 #Check if the detection is reversible
@@ -109,15 +100,12 @@ class App:
                 self.tracks = np.reshape(new_tracks,[-1,1,2])
                 
                 #UPDATE CIRCLE POSITION
-                print np.shape(self.tracks)
-                for cvx,cvy,(cx,cy),(ox,oy),(nvx,nvy) in zip(circlevx,circlevy,self.tracks.reshape(-1,2),self.p.reshape(-1,2),new_veloc):
-                    #(cvx,cvy)=(cvx+(nvx+np.sign(ox-cx)*(ox-cx)**2)*scale,cvy+(nvy+np.sign(oy-cy)*(oy-cy)**2)*scale) #FIXME
-                    (cvx,cvy)=(cvx+(nvx)*scale,cvy+(nvy)*scale) #FIXME
-                    #print ox, oy,cx,cy
-                    new_circlevx=np.append(new_circlevx,cvx); new_circlevy=np.append(new_circlevy,cvy)                    #(cx,cy)=(np.mod(cx+np.sign(cx)*cvx**2,self.screenx),np.mod(cy+np.sign(cy)*cvy**2,self.screeny))
+                for cvx,cvy,(cx,cy),(nvx,nvy) in zip(circlevx,circlevy,self.tracks.reshape(-1,2),new_veloc):
+                    (cvx,cvy)=(cvx+nvx*scale,cvy+nvy*scale)
+                    new_circlevx=np.append(new_circlevx,cvx); new_circlevy=np.append(new_circlevy,cvy)     
                     (cx,cy)=(np.mod(cx+cvx,self.screenx),np.mod(cy+cvy,self.screeny))
                     nc=(cx,cy)
-                    new_circles.append(nc)                    #(cx,cy)=(np.mod(cx+np.sign(cx)*cvx**2,self.screenx),np.mod(cy+np.sign(cy)*cvy**2,self.screeny))
+                    new_circles.append(nc)             
                     cv2.circle(vis, (np.int32(cx), np.int32(cy)), 10, (0, 255, 0), 0)#-1)
                 self.tracks = np.reshape(new_circles,[-1,1,2])
                 circlevy=new_circlevy; circlevx=new_circlevx;
