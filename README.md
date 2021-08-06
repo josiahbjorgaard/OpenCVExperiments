@@ -20,6 +20,13 @@ Make sure you have the required python packages installed and run the python sou
 
 ### Set-up
 Install the prerequisites, run the python source.
+If you have conda installed, here are the commands to set-up the environment. The scripts are old, so you have to use old python and opencv
+```
+conda create -n python2 python=2.7 anaconda
+conda activate python2
+pip install opencv-python==4.2.0.32
+
+```
 
 ### Run
 python [sourcefile]
